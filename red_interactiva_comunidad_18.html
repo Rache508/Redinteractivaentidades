@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "salmon", "font": {"color": "black"}, "id": "3Var45", "label": "3Var45", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var45\u003c/b\u003e\u003cbr\u003eDegree: 0.5556\u003cbr\u003eBetweenness: 0.0833\u003cbr\u003eCloseness: 0.6923\u003cbr\u003eEigenvector: 0.3511\u003cbr\u003eComunidad: 18", "x": 24.400912336673724, "y": -337.8191703542847}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var59", "label": "3Var59", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var59\u003c/b\u003e\u003cbr\u003eDegree: 0.2222\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 0.5000\u003cbr\u003eEigenvector: 0.1469\u003cbr\u003eComunidad: 18", "x": 172.76752210253485, "y": 862.1750896393102}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var68", "label": "3Var68", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var68\u003c/b\u003e\u003cbr\u003eDegree: 0.4444\u003cbr\u003eBetweenness: 0.2222\u003cbr\u003eCloseness: 0.6429\u003cbr\u003eEigenvector: 0.2274\u003cbr\u003eComunidad: 18", "x": 495.11961744750795, "y": -252.70762881709751}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var3", "label": "3Var3", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var3\u003c/b\u003e\u003cbr\u003eDegree: 0.5556\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 0.6429\u003cbr\u003eEigenvector: 0.3982\u003cbr\u003eComunidad: 18", "x": -133.12503819482487, "y": 351.6188233403879}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var39", "label": "3Var39", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var39\u003c/b\u003e\u003cbr\u003eDegree: 0.5556\u003cbr\u003eBetweenness: 0.0833\u003cbr\u003eCloseness: 0.6429\u003cbr\u003eEigenvector: 0.3502\u003cbr\u003eComunidad: 18", "x": -437.69538133362704, "y": 496.63229559530424}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var42", "label": "3Var42", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var42\u003c/b\u003e\u003cbr\u003eDegree: 0.2222\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 0.5000\u003cbr\u003eEigenvector: 0.1745\u003cbr\u003eComunidad: 18", "x": -709.9913762251467, "y": -613.2349725500386}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var36", "label": "3Var36", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var36\u003c/b\u003e\u003cbr\u003eDegree: 0.5556\u003cbr\u003eBetweenness: 0.1389\u003cbr\u003eCloseness: 0.6429\u003cbr\u003eEigenvector: 0.3642\u003cbr\u003eComunidad: 18", "x": -599.6406934529639, "y": -96.89289604912415}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var6", "label": "3Var6", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var6\u003c/b\u003e\u003cbr\u003eDegree: 0.6667\u003cbr\u003eBetweenness: 0.1667\u003cbr\u003eCloseness: 0.7500\u003cbr\u003eEigenvector: 0.3783\u003cbr\u003eComunidad: 18", "x": 302.3441576483073, "y": 227.5197898506511}, {"color": "purple", "font": {"color": "black"}, "id": "3Var18", "label": "3Var18", "shape": "dot", "size": 70, "title": "\u003cb\u003e3Var18\u003c/b\u003e\u003cbr\u003eDegree: 0.7778\u003cbr\u003eBetweenness: 0.1389\u003cbr\u003eCloseness: 0.8182\u003cbr\u003eEigenvector: 0.4628\u003cbr\u003eComunidad: 18", "x": -114.17972032846097, "y": -83.24159431170659}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var62", "label": "3Var62", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var62\u003c/b\u003e\u003cbr\u003eDegree: 0.1111\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 0.4091\u003cbr\u003eEigenvector: 0.0435\u003cbr\u003eComunidad: 18", "x": 1000.0, "y": -554.0497363434018}]);
+                  edges = new vis.DataSet([{"color": "#fc9272", "from": "3Var45", "length": 123.00109061245827, "to": "3Var3", "value": 0.813000921390785}, {"color": "#fff0e9", "from": "3Var45", "length": 141.09455833375, "to": "3Var6", "value": 0.7087445552893437}, {"color": "#fdccb8", "from": "3Var45", "length": 131.86547870124699, "to": "3Var18", "value": 0.7583485911923843}, {"color": "#fff3ed", "from": "3Var45", "length": 142.02007283286173, "to": "3Var36", "value": 0.7041258183108128}, {"color": "#fed9c9", "from": "3Var45", "length": 134.2176810324326, "to": "3Var68", "value": 0.7450583204148477}, {"color": "#fcbda4", "from": "3Var59", "length": 129.3245817501144, "to": "3Var6", "value": 0.7732481995822232}, {"color": "#fca082", "from": "3Var59", "length": 125.00607130459987, "to": "3Var39", "value": 0.799961145537739}, {"color": "#fff2eb", "from": "3Var68", "length": 141.44397719013648, "to": "3Var6", "value": 0.7069936945111117}, {"color": "#fff4ef", "from": "3Var68", "length": 142.43838555924825, "to": "3Var18", "value": 0.7020579432108509}, {"color": "#fed9c9", "from": "3Var68", "length": 134.1017056722378, "to": "3Var62", "value": 0.7457026702137044}, {"color": "#fed8c7", "from": "3Var3", "length": 134.0987553295308, "to": "3Var6", "value": 0.7457190766182922}, {"color": "#f03d2d", "from": "3Var3", "length": 112.93806122582589, "to": "3Var18", "value": 0.885441089696453}, {"color": "#e43027", "from": "3Var3", "length": 111.20822460990914, "to": "3Var36", "value": 0.8992140675815588}, {"color": "#fff2ec", "from": "3Var3", "length": 141.71514389389745, "to": "3Var39", "value": 0.7056408881387461}, {"color": "#e12d26", "from": "3Var39", "length": 110.79313277537587, "to": "3Var6", "value": 0.902583016609359}, {"color": "#fdd0bc", "from": "3Var39", "length": 132.47043263189454, "to": "3Var18", "value": 0.754885433777343}, {"color": "#fdcdb9", "from": "3Var39", "length": 132.11469203072076, "to": "3Var36", "value": 0.7569180873293554}, {"color": "#f0402f", "from": "3Var42", "length": 113.218222080301, "to": "3Var18", "value": 0.8832500472324512}, {"color": "#fed9c9", "from": "3Var42", "length": 134.27464368877, "to": "3Var36", "value": 0.7447422480731816}, {"color": "#dc2924", "from": "3Var36", "length": 110.30310869303291, "to": "3Var18", "value": 0.906592762297336}, {"color": "#fee4d8", "from": "3Var6", "length": 136.75773896602732, "to": "3Var18", "value": 0.7312200447013936}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -50, "centralGravity": 0.01, "springLength": 230, "springConstant": 0.18, "avoidOverlap": 1}, "minVelocity": 0.75, "timestep": 0.35, "stabilization": {"enabled": true, "iterations": 150}}, "interaction": {"dragNodes": true}, "manipulation": {"enabled": true, "addNode": false, "editNode": false, "deleteNode": true, "addEdge": false, "editEdge": false, "deleteEdge": false}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <button id="togglePhysics" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">Toggle Physics</button>
+    <script type="text/javascript">
+    document.getElementById("togglePhysics").addEventListener("click", function() {
+        // Verifica el estado actual de la física y lo invierte
+        var currentPhysics = network.physics.physicsEnabled;
+        network.setOptions({ physics: { enabled: !currentPhysics }});
+    });
+    </script>
+    
+</body>
+</html>

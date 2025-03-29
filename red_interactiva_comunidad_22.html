@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "salmon", "font": {"color": "black"}, "id": "3Var20", "label": "3Var20", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var20\u003c/b\u003e\u003cbr\u003eDegree: 0.8000\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 0.8333\u003cbr\u003eEigenvector: 0.4139\u003cbr\u003eComunidad: 22", "x": 433.42058062431283, "y": 429.16627476104736}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var29", "label": "3Var29", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var29\u003c/b\u003e\u003cbr\u003eDegree: 0.8000\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 0.8333\u003cbr\u003eEigenvector: 0.4437\u003cbr\u003eComunidad: 22", "x": -158.04101300566123, "y": 835.1579685482297}, {"color": "purple", "font": {"color": "black"}, "id": "3Var32", "label": "3Var32", "shape": "dot", "size": 70, "title": "\u003cb\u003e3Var32\u003c/b\u003e\u003cbr\u003eDegree: 1.0000\u003cbr\u003eBetweenness: 0.3000\u003cbr\u003eCloseness: 1.0000\u003cbr\u003eEigenvector: 0.4513\u003cbr\u003eComunidad: 22", "x": 309.89757311138675, "y": -175.60478123249186}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var26", "label": "3Var26", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var26\u003c/b\u003e\u003cbr\u003eDegree: 1.0000\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 1.0000\u003cbr\u003eEigenvector: 0.4618\u003cbr\u003eComunidad: 22", "x": -263.39991623507865, "y": -319.21715005170154}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var23", "label": "3Var23", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var23\u003c/b\u003e\u003cbr\u003eDegree: 0.8000\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 0.8333\u003cbr\u003eEigenvector: 0.4193\u003cbr\u003eComunidad: 22", "x": -575.3102426555593, "y": 230.49768797491635}, {"color": "salmon", "font": {"color": "black"}, "id": "3Var35", "label": "3Var35", "shape": "dot", "size": 20, "title": "\u003cb\u003e3Var35\u003c/b\u003e\u003cbr\u003eDegree: 0.4000\u003cbr\u003eBetweenness: 0.0000\u003cbr\u003eCloseness: 0.6250\u003cbr\u003eEigenvector: 0.1978\u003cbr\u003eComunidad: 22", "x": 253.4330181605996, "y": -999.9999999999999}]);
+                  edges = new vis.DataSet([{"color": "#f34c37", "from": "3Var20", "length": 114.34092698883511, "to": "3Var23", "value": 0.8745774818649543}, {"color": "#fee4d8", "from": "3Var20", "length": 136.71569993444643, "to": "3Var26", "value": 0.7314448892698411}, {"color": "#fc9070", "from": "3Var20", "length": 122.7747829649395, "to": "3Var29", "value": 0.8144995053956378}, {"color": "#fee0d2", "from": "3Var20", "length": 135.39079593281645, "to": "3Var32", "value": 0.7386026451134976}, {"color": "#fb694a", "from": "3Var29", "length": 117.6094042432568, "to": "3Var23", "value": 0.8502721414451306}, {"color": "#e63328", "from": "3Var29", "length": 111.62541861696538, "to": "3Var26", "value": 0.8958533032977267}, {"color": "#f4503a", "from": "3Var29", "length": 114.86661628348239, "to": "3Var32", "value": 0.8705749610766572}, {"color": "#fff0e8", "from": "3Var32", "length": 140.82547066593122, "to": "3Var23", "value": 0.7100988161241217}, {"color": "#f96245", "from": "3Var32", "length": 116.72347285948894, "to": "3Var26", "value": 0.8567257086359951}, {"color": "#fff0e8", "from": "3Var32", "length": 140.8751492069307, "to": "3Var35", "value": 0.7098484052223474}, {"color": "#fcbba1", "from": "3Var26", "length": 128.9466258476436, "to": "3Var23", "value": 0.7755146700632138}, {"color": "#fdd0bc", "from": "3Var26", "length": 132.55067802395084, "to": "3Var35", "value": 0.7544284306258382}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -50, "centralGravity": 0.01, "springLength": 230, "springConstant": 0.18, "avoidOverlap": 1}, "minVelocity": 0.75, "timestep": 0.35, "stabilization": {"enabled": true, "iterations": 150}}, "interaction": {"dragNodes": true}, "manipulation": {"enabled": true, "addNode": false, "editNode": false, "deleteNode": true, "addEdge": false, "editEdge": false, "deleteEdge": false}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <button id="togglePhysics" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">Toggle Physics</button>
+    <script type="text/javascript">
+    document.getElementById("togglePhysics").addEventListener("click", function() {
+        // Verifica el estado actual de la física y lo invierte
+        var currentPhysics = network.physics.physicsEnabled;
+        network.setOptions({ physics: { enabled: !currentPhysics }});
+    });
+    </script>
+    
+</body>
+</html>
